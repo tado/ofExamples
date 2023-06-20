@@ -13,6 +13,6 @@ void ofApp::draw() {
     // send uniform variables to shader (Elapsed time in seconds)
     shader.setUniform1f("u_time", ofGetElapsedTimef());
 
-    ofRect(-ofGetWidth() / 2, -ofGetHeight() / 2, ofGetWidth(), ofGetHeight());
+    ofDrawRectangle(-ofGetWidth() / 2, -ofGetHeight() / 2, ofGetWidth(), ofGetHeight());
     shader.end();
 }

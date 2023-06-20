@@ -15,7 +15,7 @@ void ofApp::draw() {
     // send uniform variables to shader (resolution)
     shader.setUniform2f("u_resolution", ofGetWidth(), ofGetHeight());
 
-    ofRect(-ofGetWidth() / 2, -ofGetHeight() / 2, ofGetWidth(), ofGetHeight());
+    ofDrawRectangle(-ofGetWidth() / 2, -ofGetHeight() / 2, ofGetWidth(), ofGetHeight());
     shader.end();
 }
 
