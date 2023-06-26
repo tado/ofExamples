@@ -31,3 +31,9 @@ void ofApp::draw() {
 	shader.end();
 	cam.end();
 }
+
+void ofApp::keyPressed(int key) {
+	if (key == 'f') {
+		ofToggleFullscreen();
+	}
+}
