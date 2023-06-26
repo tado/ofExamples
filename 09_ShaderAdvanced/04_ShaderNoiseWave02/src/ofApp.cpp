@@ -26,7 +26,6 @@ void ofApp::draw() {
 	cam.begin();
 	shader.begin();
 	shader.setUniform1f("u_time", ofGetElapsedTimef());
-	shader.setUniform2f("u_resolution", ofGetWidth(), ofGetHeight());
 	ofRotateXDeg(150);
 	mesh.draw();
 	shader.end();

@@ -12,7 +12,6 @@ void ofApp::draw() {
     cam.begin();
     shader.begin();
     shader.setUniform1f("u_time", ofGetElapsedTimef());
-    shader.setUniform2f("u_resolution", ofGetWidth(), ofGetHeight());
     sphere.set(ofGetHeight() / 2.5, 32);
     sphere.draw();
     shader.end();

@@ -1,12 +1,12 @@
 #version 430
 
 uniform float u_time;
-uniform vec2 u_resolution;
 
 in Vertex {
     vec4 worldSpacePos;
     vec4 color;
     vec3 normal;
+    vec2 texcoord;
 } iVert;
 
 out vec4 fragColor;
