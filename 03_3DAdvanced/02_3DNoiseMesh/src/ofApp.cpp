@@ -11,9 +11,10 @@ void ofApp::update() {
 	float div = 400.0;
 	float scale = 200.0;
 	float speed = 0.25;
-	for (int i = 0; i < mesh.getVertices().size(); i++) {
-		float x = mesh.getVertices()[i].x;
-		float y = mesh.getVertices()[i].y;
+	vector<glm::vec3> vertices = mesh.getVertices();
+	for (int i = 0; i < vertices.size(); i++) {
+		float x = vertices[i].x;
+		float y = vertices[i].y;
 		float z = ofNoise(x / div, y / div, ofGetElapsedTimef() * speed) * scale;
 		mesh.setVertex(i, glm::vec3(x, y, z));
 	}
