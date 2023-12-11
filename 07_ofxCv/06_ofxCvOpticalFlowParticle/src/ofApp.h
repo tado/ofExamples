@@ -32,6 +32,6 @@ public:
     
     // Particle
     vector<ParticleVec2> particles;
-    static const int NUM = 20000;
+    static const int NUM = 8000;
     ofVboMesh mesh;
 };
