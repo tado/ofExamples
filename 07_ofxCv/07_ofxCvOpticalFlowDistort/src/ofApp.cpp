@@ -4,22 +4,20 @@ using namespace ofxCv;
 using namespace cv;
 
 void ofApp::setup() {
-    ofSetVerticalSync(true);
-    ofSetFrameRate(120);
     cam.initGrabber(320, 240);
-    
+
     mesh.setMode(OF_PRIMITIVE_TRIANGLES);
     stepSize = 8;
     ySteps = cam.getHeight() / stepSize;
     xSteps = cam.getWidth() / stepSize;
-    for(int y = 0; y < ySteps; y++) {
-        for(int x = 0; x < xSteps; x++) {
+    for (int y = 0; y < ySteps; y++) {
+        for (int x = 0; x < xSteps; x++) {
             mesh.addVertex(glm::vec3(x * stepSize, y * stepSize, 0));
             mesh.addTexCoord(glm::vec3(x * stepSize, y * stepSize, 0));
         }
     }
-    for(int y = 0; y + 1 < ySteps; y++) {
-        for(int x = 0; x + 1 < xSteps; x++) {
+    for (int y = 0; y + 1 < ySteps; y++) {
+        for (int x = 0; x + 1 < xSteps; x++) {
             int nw = y * xSteps + x;
             int ne = nw + 1;
             int sw = nw + xSteps;
@@ -36,13 +34,13 @@ void ofApp::setup() {
 
 void ofApp::update() {
     cam.update();
-    if(cam.isFrameNew()) {
+    if (cam.isFrameNew()) {
         flow.setWindowSize(8);
         flow.calcOpticalFlow(cam);
         int i = 0;
-        float distortionStrength = 4;
-        for(int y = 1; y + 1 < ySteps; y++) {
-            for(int x = 1; x + 1 < xSteps; x++) {
+        float distortionStrength = 8;
+        for (int y = 1; y + 1 < ySteps; y++) {
+            for (int x = 1; x + 1 < xSteps; x++) {
                 int i = y * xSteps + x;
                 glm::vec3 position(x * stepSize, y * stepSize, 0);
                 ofRectangle area(position - glm::vec2(stepSize, stepSize) / 2, stepSize, stepSize);
@@ -61,7 +59,7 @@ void ofApp::draw() {
     cam.getTexture().bind();
     mesh.draw();
     cam.getTexture().unbind();
-    if(ofGetMousePressed()) {
+    if (ofGetMousePressed()) {
         mesh.drawWireframe();
     }
 }
