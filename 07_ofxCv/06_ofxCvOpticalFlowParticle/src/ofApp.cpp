@@ -5,8 +5,6 @@ using namespace cv;
 
 void ofApp::setup() {
     //init draw settings
-    ofSetFrameRate(60);
-    ofEnableBlendMode(OF_BLENDMODE_ADD);
     mesh.setMode(OF_PRIMITIVE_POINTS);
     glPointSize(5.0);
 
@@ -53,17 +51,18 @@ void ofApp::update() {
     mesh.clear();
     for (int i = 0; i < particles.size(); i++) {
         //calculate force from opticalflow to the particle
-        glm::vec2 force;
+        glm::vec2 force = glm::vec2(0, 0);
         glm::vec2 pos;
         pos.x = particles[i].position.x * float(camera.getWidth()) / float(ofGetWidth());
         pos.y = particles[i].position.y * float(camera.getHeight()) / float(ofGetHeight());
-        if (pos.x > 0 && pos.y > 0) {
+                
+        if (pos.x > 0 && pos.y > 0 && pos.x < camera.getWidth() && pos.y < camera.getHeight()) {
             force = flow.getFlowOffset(pos.x, pos.y) * glm::vec1(flowScale);
         }
-
+        
         //add VBO mesh vertex
-        mesh.addVertex(ofVec3f(particles[i].position.x, particles[i].position.y, 0));
-        mesh.addColor(ofFloatColor(0.0, 0.5, 1.0));
+        mesh.addVertex(glm::vec3(particles[i].position.x, particles[i].position.y, 0));
+        mesh.addColor(ofFloatColor(0.0, 0.0, 1.0));
 
         //update particles
         particles[i].addForce(glm::vec2(force.x, force.y));
