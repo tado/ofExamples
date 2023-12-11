@@ -4,47 +4,37 @@ using namespace ofxCv;
 using namespace cv;
 
 void ofApp::setup() {
-    //init camera
+    // setup camera
     cam.initGrabber(ofGetWidth(), ofGetHeight());
-    //contourFinder settings
-    contourFinder.setMinAreaRadius(10);
-    contourFinder.setMaxAreaRadius(200);
-    background.setLearningTime(900);
-	background.setThresholdValue(20);    
-    //GUI
-    resetBackgroundButton.addListener(this, &ofApp::resetBackgroundPressed);
+    // setup GUI
     gui.setup();
-    gui.add(bgThresh.setup("background thresh", 50, 0, 100));
-    gui.add(contourThresh.setup("contour finder thresh", 127, 0, 255));
-    gui.add(resetBackgroundButton.setup("reset background"));
+    gui.add(thresh.setup("Threshold", 128, 0, 255));
+    gui.add(minArea.setup("Min Area", 10, 1, 100));
+    gui.add(maxArea.setup("Max Area", 200, 1, 500));
 }
 
 void ofApp::update() {
-    //update camera
     cam.update();
-    if(cam.isFrameNew()) {
-        //calculate background difference
-        background.setThresholdValue(bgThresh);
-        background.update(cam, thresholded);
-		thresholded.update();
-        //find coutors
-        contourFinder.setThreshold(contourThresh);
-        contourFinder.findContours(thresholded);
+    if (cam.isFrameNew()) {
+        // find contours
+        contourFinder.setMinAreaRadius(minArea);
+        contourFinder.setMaxAreaRadius(maxArea);
+        contourFinder.setThreshold(thresh);
+        contourFinder.findContours(cam);
     }
 }
 
 void ofApp::draw() {
-    //draw background difference image
     ofSetColor(255);
-    thresholded.draw(0, 0);    
-    //draw contours
-    ofSetColor(255, 0, 0);
+    cam.draw(0, 0);
+    // draw contours
     contourFinder.draw();
-    //draw gui
+    // draw centers
+    for (int i = 0; i < contourFinder.size(); i++) {
+        cv::Point2f center = contourFinder.getCenter(i);
+        ofSetColor(255, 0, 0);
+        ofDrawCircle(center.x, center.y, 10);
+    }
+    // draw GUI
     gui.draw();
-}
-
-//reset background
-void ofApp::resetBackgroundPressed(){
-    background.reset();
 }
